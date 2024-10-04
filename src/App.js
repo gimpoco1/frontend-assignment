@@ -1,7 +1,7 @@
-import { Text } from "@chakra-ui/react";
+import MainPage from "./components/pages/MainPage";
 
 function App() {
-  return <Text fontSize={"xlTitle1"}> Hello</Text>;
+  return <MainPage />;
 }
 
 export default App;
