@@ -6,6 +6,7 @@ import {
   Input,
   Flex,
   useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
 import { Project } from "../../../data/types";
 import githubProjects from "../../../data";
@@ -46,9 +47,12 @@ const MainPage: React.FC = () => {
 
   return (
     <Box p="12">
+      <Heading mb={6} fontSize={"title1"}>
+        {messages.title}
+      </Heading>
       <Flex justifyContent="start" alignItems="center" mb="12">
         <Input
-          placeholder="Find a project..."
+          placeholder={messages.searchPlaceholder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           maxW="400px"

@@ -16,9 +16,6 @@ export interface IFontSizes {
   headline3: string;
   subheadline1: string;
   subheadline2: string;
-  subheadline3: string;
-  caption1: string;
-  caption2: string;
   body: string;
   body2: string;
   footnote: string;
