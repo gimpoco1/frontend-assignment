@@ -12,7 +12,7 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { MdDeleteOutline } from "react-icons/md";
 import { AiFillStar } from "react-icons/ai";
 import { Project } from "../../../data/types";
 import { messages } from "./messages";
@@ -31,6 +31,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       bgColors[Math.floor(Math.random() * bgColors.length)]
   );
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(`bgColor-${project.id}`, bgColor);
@@ -61,7 +62,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
   return (
     <Box
       ref={cardRef}
-      w="280px"
+      w="260px"
       h="220px"
       p="6"
       bg={bgColor}
@@ -70,18 +71,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       position="relative"
       mb="8"
       transition="transform 0.3s ease-in-out"
-      _hover={{ transform: "scale(1.07)" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      _hover={{
+        transform: "scale(1.07)",
+      }}
     >
-      <IconButton
-        aria-label="Remove project"
-        icon={<CloseIcon />}
-        size="xs"
-        position="absolute"
-        top="2"
-        right="2"
-        variant="ghost"
-        onClick={() => onRemove(project.id)}
-      />
+      {isHovered && (
+        <IconButton
+          aria-label="Remove project"
+          icon={<MdDeleteOutline size={22} />}
+          size="xs"
+          position="absolute"
+          top="4"
+          right="4"
+          variant=""
+          _hover={{ color: "red.500" }}
+          onClick={() => onRemove(project.id)}
+        />
+      )}
+
       <Box
         position="absolute"
         bottom="4"
@@ -111,7 +120,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
             border={"1px solid"}
             borderColor={"blackAlpha.400"}
           >
-            {bgColors.map((color) => (
+            {bgColors.map((color, index) => (
               <Box
                 key={color}
                 w="24px"
@@ -125,6 +134,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
                     ? "2px solid black"
                     : "2px solid transparent"
                 }
+                data-testid={`color-picker-${index}`}
+                aria-label={`Select color ${color}`}
               />
             ))}
           </VStack>
@@ -141,9 +152,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       </Heading>
       <Flex alignItems="center" justifyContent="center" mb="4">
         {[...Array(project.rating)].map((_, i) => (
-          <AiFillStar key={i} color="gold" size="20px" />
+          <AiFillStar
+            key={i}
+            color="gold"
+            size="22px"
+            data-testid="star-icon"
+          />
         ))}
       </Flex>
+
       <Link
         href={project.url}
         isExternal
