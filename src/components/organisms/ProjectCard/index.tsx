@@ -35,7 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       <Heading fontSize="headline3">{project.name}</Heading>
       <Flex mt="2" alignItems="center">
         {[...Array(project.rating)].map((_, i) => (
-          <AiFillStar key={i} color="yellow" />
+          <AiFillStar key={i} color="gold" />
         ))}
       </Flex>
       <Link

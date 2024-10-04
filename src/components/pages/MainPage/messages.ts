@@ -1,3 +1,3 @@
 export const messages = {
-    ctaAddProject: "Add Project",
+    ctaAddProject: "New",
 }

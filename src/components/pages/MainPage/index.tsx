@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  Input,
+  Flex,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Project } from "../../../data/types";
 import githubProjects from "../../../data";
 import ProjectCard from "../../organisms/ProjectCard";
 import AddProjectModal from "../../molecules/AddProjectModal";
 import { messages } from "./messages";
+import { GoRepo } from "react-icons/go";
 
 const MainPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -31,13 +40,33 @@ const MainPage: React.FC = () => {
     setProjects(projects.filter((project) => project.id !== id));
   };
 
+  const filteredProjects = projects.filter((project) =>
+    project.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <Box p="4">
-      <Button onClick={onOpen} colorScheme="teal" mb="4">
-        {messages.ctaAddProject}
-      </Button>
+    <Box p="12">
+      <Flex justifyContent="start" alignItems="center" mb="12">
+        <Input
+          placeholder="Find a project..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          maxW="400px"
+          mr="4"
+          borderRadius="12px"
+        />
+        <Button
+          onClick={onOpen}
+          leftIcon={<GoRepo />}
+          borderRadius="12px"
+          colorScheme="teal"
+        >
+          {messages.ctaAddProject}
+        </Button>
+      </Flex>
+
       <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={6}>
-        {projects.map((project) => (
+        {filteredProjects.map((project) => (
           <ProjectCard
             key={project.id}
             project={project}

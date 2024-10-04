@@ -9,7 +9,7 @@ export const messages = {
   },
   formPlaceholders: {
     name: "Name",
-    rating: "Rating (1-5)",
+    rating: "Rating",
     url: "URL",
   },
 };
