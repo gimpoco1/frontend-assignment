@@ -13,11 +13,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
-import { AiFillStar } from "react-icons/ai";
 import { Project } from "../../../data/types";
 import { messages } from "./messages";
 import { LuExternalLink } from "react-icons/lu";
 import { bgColors } from "../../../constants/bg-colors.constants";
+import StarIcon from "../../atoms/icons/StarIcon";
 
 interface ProjectCardProps {
   project: Project;
@@ -152,12 +152,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       </Heading>
       <Flex alignItems="center" justifyContent="center" mb="4">
         {[...Array(project.rating)].map((_, i) => (
-          <AiFillStar
-            key={i}
-            color="gold"
-            size="22px"
-            data-testid="star-icon"
-          />
+          <StarIcon key={i} boxSize="22px" />
         ))}
       </Flex>
 

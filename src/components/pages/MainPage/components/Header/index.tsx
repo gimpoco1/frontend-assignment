@@ -100,7 +100,11 @@ function Header({
           onClick={onOpen}
           leftIcon={<GoRepo />}
           borderRadius="12px"
-          colorScheme="teal"
+          bgColor="#f0e68c"
+          color={"black"}
+          fontWeight={"semibold"}
+          _hover={{ bgColor: "#e6db74" }}
+          _active={{ bgColor: "black", color: "#e6db74" }}
         >
           {messages.ctaAddProject}
         </Button>
@@ -111,7 +115,7 @@ function Header({
           <MenuButton
             as={Button}
             rightIcon={<ChevronDownIcon />}
-            colorScheme="teal"
+            colorScheme="cyan"
             variant="outline"
             borderRadius={"sm"}
             w={"fit-content"}
