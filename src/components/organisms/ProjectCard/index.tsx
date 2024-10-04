@@ -17,7 +17,7 @@ import { AiFillStar } from "react-icons/ai";
 import { Project } from "../../../data/types";
 import { messages } from "./messages";
 import { LuExternalLink } from "react-icons/lu";
-import { bgColors } from "../../../data";
+import { bgColors } from "../../../constants/bg-colors.constants";
 
 interface ProjectCardProps {
   project: Project;
