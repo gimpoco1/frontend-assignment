@@ -6,6 +6,11 @@ import Projects from "./components/Projects";
 
 const MainPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const filteredProjects = projects.filter((project) =>
+    project.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const removeProject = (id: string) => {
     setProjects(projects.filter((project) => project.id !== id));
@@ -13,8 +18,13 @@ const MainPage: React.FC = () => {
 
   return (
     <Box p="12" maxW={"1350px"} mx={"auto"}>
-      <Header projects={projects} setProjects={setProjects} />
-      <Projects projects={projects} removeProject={removeProject} />
+      <Header
+        projects={projects}
+        setProjects={setProjects}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
+      <Projects projects={filteredProjects} removeProject={removeProject} />
     </Box>
   );
 };

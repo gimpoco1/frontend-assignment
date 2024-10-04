@@ -18,6 +18,8 @@ import { messages } from "./messages";
 import { LuExternalLink } from "react-icons/lu";
 import { bgColors } from "../../../constants/bg-colors.constants";
 import StarIcon from "../../atoms/icons/StarIcon";
+import { PiPaintBrushBroadLight } from "react-icons/pi";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   project: Project;
@@ -32,7 +34,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
   );
   const { isOpen, onToggle, onClose } = useDisclosure();
   const [isHovered, setIsHovered] = useState(false);
-
+  const trashIconColor = useColorModeValue("whiteAlpha.800", "blackAlpha.800");
   useEffect(() => {
     localStorage.setItem(`bgColor-${project.id}`, bgColor);
   }, [bgColor, project.id]);
@@ -62,8 +64,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
   return (
     <Box
       ref={cardRef}
-      w="260px"
-      h="220px"
+      w={{ base: "240px", lg: "260px" }}
+      h={{ base: "200px", lg: "220px" }}
       p="6"
       bg={bgColor}
       borderRadius="24px"
@@ -84,6 +86,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
           size="xs"
           position="absolute"
           top="4"
+          color={trashIconColor}
           right="4"
           variant=""
           _hover={{ color: "red.500" }}
@@ -100,12 +103,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
         bg={bgColor}
         borderRadius="full"
         border="1px solid"
-        borderColor={useColorModeValue("blackAlpha.600", "whiteAlpha.800")}
+        borderColor={useColorModeValue("whiteAlpha.800", "blackAlpha.500")}
         cursor="pointer"
         onClick={onToggle}
         boxShadow="lg"
+        color={useColorModeValue("blackAlpha.500", "blackAlpha.800")}
         _hover={{ boxShadow: "xl" }}
-      />
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <motion.div
+          whileHover={{ rotate: 360 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+        >
+          <PiPaintBrushBroadLight
+            size={14}
+            color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}
+          />
+        </motion.div>
+      </Box>
       {isOpen && (
         <ScaleFade initialScale={0.9} in={isOpen}>
           <VStack
@@ -145,7 +162,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
         fontSize="2xl"
         mt="4"
         mb="4"
-        color={useColorModeValue("gray.800", "white")}
+        color={useColorModeValue("blackAlpha", "gray.800")}
         textAlign="center"
       >
         {project.name}

@@ -4,6 +4,7 @@ import {
   Flex,
   Heading,
   HStack,
+  IconButton,
   Input,
   Menu,
   MenuButton,
@@ -11,15 +12,16 @@ import {
   MenuList,
   Stack,
   Text,
+  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { messages } from "../../messages";
 import { CheckIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import SORT_OPTIONS, {
   SortOption,
 } from "../../../../../constants/sorting-options.constants";
-import { GoRepo } from "react-icons/go";
+import { RiGitRepositoryLine } from "react-icons/ri";
 import { Project } from "../../../../../data/types";
 import AddProjectModal from "../../../../molecules/AddProjectModal";
 import {
@@ -29,20 +31,23 @@ import {
   saveSortOptionToLocalStorage,
 } from "../../../../utils/local-storage";
 import githubProjects from "../../../../../data";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 function Header({
   projects,
   setProjects,
+  searchTerm,
+  setSearchTerm,
 }: {
   projects: Project[];
   setProjects: (projects: Project[]) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }) {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const filteredProjects = projects.filter((project) =>
-    project.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   const [currentSort, setCurrentSort] = useState<string | null>(null);
 
   useEffect(() => {
@@ -73,80 +78,108 @@ function Header({
 
   const applySort = useCallback(
     (sortOption: SortOption) => {
-      const sortedProjects = [...filteredProjects].sort(sortOption.sortFn);
+      const sortedProjects = [...projects].sort(sortOption.sortFn);
       setProjects(sortedProjects);
       setCurrentSort(sortOption.value);
     },
-    [filteredProjects]
+    [projects]
   );
+
   const addProject = (project: Project) => {
     setProjects([...projects, project]);
   };
   return (
     <Box>
-      <Heading mb={6} fontSize={"title1"}>
+      <Heading mb={6} fontSize={{ base: "title3", md: "title2", lg: "title1" }}>
         {messages.title}
       </Heading>
-      <Flex justifyContent="start" alignItems="center" mb="8">
-        <Input
-          placeholder={messages.searchPlaceholder}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          maxW="400px"
-          mr="4"
-          borderRadius="12px"
-        />
-        <Button
-          onClick={onOpen}
-          leftIcon={<GoRepo />}
-          borderRadius="12px"
-          bgColor="#f0e68c"
-          color={"black"}
-          fontWeight={"semibold"}
-          _hover={{ bgColor: "#e6db74" }}
-          _active={{ bgColor: "black", color: "#e6db74" }}
-        >
-          {messages.ctaAddProject}
-        </Button>
-      </Flex>
-
-      <Stack pb={8}>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rightIcon={<ChevronDownIcon />}
-            colorScheme="cyan"
-            variant="outline"
-            borderRadius={"sm"}
-            w={"fit-content"}
+      <IconButton
+        aria-label="Toggle dark mode"
+        icon={colorMode === "light" ? <FaMoon size={22} /> : <FaSun size={22} />}
+        onClick={toggleColorMode}
+        variant={""}
+        position={"absolute"}
+        top={4}
+        right={4}
+      />
+      <Flex
+        flexDir={{ base: "column", lg: "row" }}
+        justifyContent={"space-between"}
+        align={"start"}
+        mb={8}
+        gap={{ base: 4, lg: 0 }}
+      >
+        <Flex w={{ base: "100%", lg: "70%" }} alignItems="center">
+          <Input
+            placeholder={messages.searchPlaceholder}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            maxW="400px"
+            mr="4"
+            borderRadius="12px"
+          />
+          <Button
+            onClick={onOpen}
+            leftIcon={<RiGitRepositoryLine size={20} />}
+            borderRadius="12px"
+            bgColor="#f0e68c"
+            color={"black"}
+            fontWeight={"semibold"}
+            _hover={{ bgColor: "#e6db74" }}
+            _active={{ bgColor: "black", color: "#e6db74" }}
           >
-            {messages.ctaSort}
-          </MenuButton>
-          <MenuList>
-            {SORT_OPTIONS.map((option) => (
-              <MenuItem
-                key={option.value}
-                onClick={() => applySort(option)}
-                icon={currentSort === option.value ? <CheckIcon /> : undefined}
+            {messages.ctaAddProject}
+          </Button>
+        </Flex>
+
+        <Stack w={{ base: "100%", lg: "30%" }}>
+          <Menu>
+            <Flex justifyContent={{ base: "start", lg: "end" }}>
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                colorScheme="cyan"
+                variant="outline"
+                borderRadius={"sm"}
+                w={"fit-content"}
               >
-                {option.label}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-        {currentSort && (
-          <HStack pt={2} justifyContent="space-between">
-            <HStack>
-              <Text fontSize="md" fontWeight={"bold"}>
-                {messages.sortedBy}
-              </Text>
-              <Text fontSize="md" color="gray.600">
-                {currentSort}
-              </Text>
-            </HStack>
-          </HStack>
-        )}
-      </Stack>
+                {messages.ctaSort}
+              </MenuButton>
+            </Flex>
+            <MenuList>
+              {SORT_OPTIONS.map((option) => (
+                <MenuItem
+                  key={option.value}
+                  onClick={() => applySort(option)}
+                  icon={
+                    currentSort === option.value ? <CheckIcon /> : undefined
+                  }
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+          {currentSort && (
+            <Flex justifyContent={{ base: "start", lg: "end" }}>
+              <HStack pt={{ base: 0, lg: 2 }} justifyContent="space-between">
+                <HStack>
+                  <Text
+                    fontSize="md"
+                    whiteSpace={"nowrap"}
+                    fontWeight={"semibold"}
+                  >
+                    {messages.sortedBy}
+                  </Text>
+                  <Text fontSize="md" whiteSpace={"nowrap"} color="gray.600">
+                    {currentSort}
+                  </Text>
+                </HStack>
+              </HStack>
+            </Flex>
+          )}
+        </Stack>
+      </Flex>
       <AddProjectModal isOpen={isOpen} onClose={onClose} onAdd={addProject} />
     </Box>
   );
