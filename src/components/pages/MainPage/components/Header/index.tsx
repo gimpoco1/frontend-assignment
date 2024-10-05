@@ -54,7 +54,7 @@ function Header({
     }
 
     setLoading(false);
-  }, []);
+  }, [setProjects]);
 
   useEffect(() => {
     if (!loading) {
@@ -76,7 +76,7 @@ function Header({
       setProjects(sortedProjects);
       setCurrentSort(sortOption.value);
     },
-    [projects]
+    [projects, setProjects]
   );
 
   const addProject = (project: Project) => {
