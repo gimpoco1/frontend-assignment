@@ -17,7 +17,7 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <Box p="12" maxW={"1350px"} mx={"auto"}>
+    <Box p="12" maxW={"1440px"} mx={"auto"}>
       <Header
         projects={projects}
         setProjects={setProjects}

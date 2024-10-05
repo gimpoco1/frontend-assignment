@@ -13,7 +13,7 @@ function Projects({
   removeProject: (id: string) => void;
 }) {
   return (
-    <Grid templateColumns="repeat(auto-fill, minmax(240px, 2fr))" gap={6}>
+    <Grid templateColumns="repeat(auto-fill, minmax(260px, 2fr))" justifyItems={'center'} mx={'auto'} gap={6}>
       {projects.map((project) => (
         <MotionBox
           key={project.id}

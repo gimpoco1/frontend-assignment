@@ -1,16 +1,13 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { ITheme } from "./interface";
 
-// Define the color mode configuration
 const config: ThemeConfig = {
-  initialColorMode: "light", // Set default to light mode, can be changed
-  useSystemColorMode: false,  // Use system color mode preference if true
+  initialColorMode: "light",
+  useSystemColorMode: true,
 };
 
-// Extend the theme
 const theme = extendTheme({
-  config,  // Add color mode configuration
-
+  config,
   fonts: {
     heading: `'Space Grotesk', sans-serif`,
     body: `'Space Grotesk', sans-serif`,
@@ -31,21 +28,24 @@ const theme = extendTheme({
     footnote: "12px",
   },
   breakpoints: {
-    base: '200px',
-    xs: '314px',
-    sm: '425px',
-    md: '768px',
-    lg: '1024px',
-    xl: '1380px',
-    xxl: '1900px',
+    base: "200px",
+    xs: "314px",
+    sm: "425px",
+    md: "768px",
+    lg: "1024px",
+    xl: "1380px",
+    xxl: "1900px",
   },
 
-  // Customize global styles based on color mode
   styles: {
-    global: (props: any) => ({
+    global: (props: {
+      colorMode: string;
+      theme: { colors: { [x: string]: string } };
+    }) => ({
       body: {
-        bg: props.colorMode === "dark" ? "gray.900" : "gray.50",  // Background color based on mode
-        color: props.colorMode === "dark" ? "whiteAlpha.900" : "gray.800",  // Text color based on mode
+        bg: props.colorMode === "dark" ? "gray.900" : "gray.50",
+        color: props.colorMode === "dark" ? "whiteAlpha.900" : "gray.800",
+        transition: "background-color 0.3s ease, color 0.3s ease",
       },
     }),
   },

@@ -51,14 +51,16 @@ function Header({
   const [currentSort, setCurrentSort] = useState<string | null>(null);
 
   useEffect(() => {
+    // localStorage.clear();
     const savedProjects = getProjectsFromLocalStorage();
     const savedSort = getSortOptionFromLocalStorage();
 
-    if (savedProjects) {
+    if (savedProjects && Array.isArray(savedProjects)) {
       setProjects(savedProjects);
     } else {
       setProjects(githubProjects);
     }
+
     if (savedSort) {
       setCurrentSort(savedSort);
     }
@@ -89,13 +91,15 @@ function Header({
     setProjects([...projects, project]);
   };
   return (
-    <Box>
+    <Box mb={16}>
       <Heading mb={6} fontSize={{ base: "title3", md: "title2", lg: "title1" }}>
         {messages.title}
       </Heading>
       <IconButton
         aria-label="Toggle dark mode"
-        icon={colorMode === "light" ? <FaMoon size={22} /> : <FaSun size={22} />}
+        icon={
+          colorMode === "light" ? <FaMoon size={22} /> : <FaSun size={22} />
+        }
         onClick={toggleColorMode}
         variant={""}
         position={"absolute"}
