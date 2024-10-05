@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a Project Management App built using React with Chakra UI for styling and TypeScript for type safety. The app allows users to manage projects, filter them using a search bar, sort them based on various criteria, add new projects, and save projects in the browser's local storage for persistence. It also features light and dark modes for better user experience, and has been developed with unit tests to ensure reliability.
 
-## Available Scripts
+# Features
 
-In the project directory, you can run:
+### Add Projects: You can add new projects using the "Add Project" button.
 
-### `npm start`
+### Search Projects: Use the search bar to filter projects by name.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Sort Projects: Sort projects by different criteria (alphabetical, by date, etc.).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Remove Projects: You can remove projects by clicking on the delete button.
 
-### `npm test`
+### Local Storage: Projects are saved to the browser's local storage, so they persist between page reloads.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Light/Dark Mode: Switch between light and dark themes using the toggle button.
 
-### `npm run build`
+# Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### React: JavaScript library for building user interfaces.
+### Chakra UI: A simple and modular component library to style your React apps.
+### TypeScript: A statically typed superset of JavaScript for improved developer experience and code reliability.
+### React Testing Library: For unit testing of components and user interaction.
+### Jest: Test framework for writing and running unit tests.
+### Local Storage: Used for storing projects persistently in the browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Node.js: Ensure you have Node.js installed on your machine.
+npm or yarn: You will need either npm (comes with Node.js) or yarn as the package manager.
 
-### `npm run eject`
+# Getting Started
+1. Clone the Repository
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+git clone https://github.com/your-username/project-management-app.git
+cd project-management-app
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install Dependencies
+Run the following command to install all necessary dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+npm install
+# or
+yarn install
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+3. Start the Development Server
+To start the development server, run the following command:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+npm start
+# or
+yarn start
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This will start the app and open it in your default browser. You can also manually visit http://localhost:3000 in your browser.
 
-### Code Splitting
+4. Build for Production
+If you'd like to build the app for production, run:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+npm run build
+# or
+yarn build
 
-### Analyzing the Bundle Size
+5. Testing
+This project includes unit tests to ensure key functionality is working as expected. The testing suite is built with Jest and React Testing Library.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Running Tests
+To run the test suite, execute the following command:
 
-### Making a Progressive Web App
+npm test
+# or
+yarn test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# Functionality
 
-### Deployment
+1. Adding a Project
+Click on the "Add Project" button to add a new project.
+Fill out the project details in the modal, and the project will appear in the list.
+The project data is saved to localStorage for persistence.
+2. Searching for a Project
+Enter a search term in the search box to filter projects based on their name.
+3. Sorting Projects
+You can sort projects using the dropdown menu by various criteria like project name, creation date, etc.
+4. Removing a Project
+You can remove any project by clicking the delete icon on the project card.
+5. Light/Dark Mode Toggle
+Use the moon/sun icon in the top right corner to toggle between light and dark modes.
+Local Storage
+Projects are automatically saved to the browser's local storage.
+On page reload, the app retrieves projects from localStorage. If no data is found, default projects are loaded.
+The sort order is also saved in localStorage.
+Troubleshooting
+Common Issues
+Missing Projects after Reload: Ensure that your browser supports local storage and that it hasn't been disabled. Check the browser's console for errors related to local storage.
+Local Storage Corruption: If the data in local storage becomes corrupted, try clearing local storage by opening the browser console and running localStorage.clear().
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Contributions
+Feel free to fork the repository and submit pull requests for any improvements or bug fixes.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+License
+This project is licensed under the MIT License. See the LICENSE file for more details.
