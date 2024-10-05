@@ -25,11 +25,7 @@ interface AddProjectModalProps {
   onAdd: (project: Project) => void;
 }
 
-const AddProjectModal: React.FC<AddProjectModalProps> = ({
-  isOpen,
-  onClose,
-  onAdd,
-}) => {
+const AddProjectModal = ({ isOpen, onClose, onAdd }: AddProjectModalProps) => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [rating, setRating] = useState<string>("");

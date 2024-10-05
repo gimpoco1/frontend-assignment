@@ -1,30 +1,7 @@
-import {
-  Box,
-  Button,
-  filter,
-  Flex,
-  Heading,
-  HStack,
-  IconButton,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Text,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { messages } from "../../messages";
-import { CheckIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import SORT_OPTIONS, {
-  SortOption,
-} from "../../../../../constants/sorting-options.constants";
-import { RiGitRepositoryLine } from "react-icons/ri";
 import { Project } from "../../../../../data/types";
-import AddProjectModal from "../../../../molecules/AddProjectModal";
+import AddProjectModal from "../../../../templates/AddProjectModal";
 import {
   getProjectsFromLocalStorage,
   getSortOptionFromLocalStorage,
@@ -32,7 +9,24 @@ import {
   saveSortOptionToLocalStorage,
 } from "../../../../utils/local-storage";
 import githubProjects from "../../../../../data";
-import { FaSun, FaMoon } from "react-icons/fa";
+import DarkModeToggle from "../../../../molecules/DarkModeToggle";
+import SearchBar from "../../../../organisms/SearchBar";
+import SortMenu from "../../../../organisms/SortMenu";
+import EmptyState from "../../../../organisms/EmptyState";
+import { messages } from "../../messages";
+
+interface HeaderProps {
+  projects: Project[];
+  setProjects: (projects: Project[]) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  filteredProjects: Project[];
+}
+
+interface SortOption {
+  value: string;
+  sortFn: (a: Project, b: Project) => number;
+}
 
 function Header({
   projects,
@@ -40,21 +34,12 @@ function Header({
   searchTerm,
   setSearchTerm,
   filteredProjects,
-}: {
-  projects: Project[];
-  setProjects: (projects: Project[]) => void;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  filteredProjects: Project[];
-}) {
-  const { colorMode, toggleColorMode } = useColorMode();
+}: HeaderProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [currentSort, setCurrentSort] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // localStorage.clear();
     const savedProjects = getProjectsFromLocalStorage();
     const savedSort = getSortOptionFromLocalStorage();
 
@@ -103,130 +88,25 @@ function Header({
       <Heading mb={6} fontSize={{ base: "title3", md: "title2", lg: "title1" }}>
         {messages.title}
       </Heading>
-      <IconButton
-        aria-label="Toggle dark mode"
-        icon={
-          colorMode === "light" ? <FaMoon size={22} /> : <FaSun size={22} />
-        }
-        onClick={toggleColorMode}
-        variant={""}
-        position={"absolute"}
-        top={4}
-        right={4}
-      />
+      <DarkModeToggle />
       <Flex
         flexDir={{ base: "column", lg: "row" }}
-        justifyContent={"space-between"}
-        align={"start"}
+        justifyContent="space-between"
+        align="start"
+        mt={4}
         mb={8}
-        gap={{ base: 4, lg: 0 }}
       >
-        <Flex w={{ base: "100%", lg: "70%" }} alignItems="center">
-          <Input
-            placeholder={messages.searchPlaceholder}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            maxW="400px"
-            mr="4"
-            borderRadius="12px"
-          />
-          <Button
-            onClick={onOpen}
-            leftIcon={<RiGitRepositoryLine size={20} />}
-            borderRadius="12px"
-            bgColor="#f0e68c"
-            color={"black"}
-            fontWeight={"semibold"}
-            _hover={{ bgColor: "#e6db74" }}
-            _active={{ bgColor: "black", color: "#e6db74" }}
-          >
-            {messages.ctaAddProject}
-          </Button>
-        </Flex>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          onOpen={onOpen}
+        />
 
-        <Stack w={{ base: "100%", lg: "30%" }}>
-          <Menu>
-            <Flex justifyContent={{ base: "start", lg: "end" }}>
-              <MenuButton
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
-                colorScheme="cyan"
-                variant="outline"
-                borderRadius={"sm"}
-                w={"fit-content"}
-              >
-                {messages.ctaSort}
-              </MenuButton>
-            </Flex>
-            <MenuList borderRadius="0">
-              {SORT_OPTIONS.map((option) => (
-                <MenuItem
-                  key={option.value}
-                  onClick={() => applySort(option)}
-                  icon={
-                    currentSort === option.value ? <CheckIcon /> : undefined
-                  }
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
-            </MenuList>
-          </Menu>
-          {currentSort && (
-            <Flex justifyContent={{ base: "start", lg: "end" }}>
-              <HStack pt={{ base: 0, lg: 2 }} justifyContent="space-between">
-                <HStack>
-                  <Text
-                    fontSize="md"
-                    whiteSpace={"nowrap"}
-                    fontWeight={"semibold"}
-                  >
-                    {messages.sortedBy}
-                  </Text>
-                  <Text fontSize="md" whiteSpace={"nowrap"} color="gray.600">
-                    {currentSort}
-                  </Text>
-                </HStack>
-              </HStack>
-            </Flex>
-          )}
-        </Stack>
+        <SortMenu currentSort={currentSort} applySort={applySort} />
       </Flex>
-      {!loading && filteredProjects.length === 0 ? (
-        <Box textAlign="center" py={20} px={6}>
-          <Heading
-            fontSize="title2"
-            color={colorMode === "light" ? "blackAlpha.700" : "gray.400"}
-          >
-            {messages.noProjectsFound}
-          </Heading>
-          <Text
-            fontSize="headline3"
-            color={colorMode === "light" ? "blackAlpha.600" : "gray.400"}
-            mb={4}
-          >
-            {messages.noProjectsFound2}
-          </Text>
-          <HStack justifyContent={"center"}>
-            <Button
-              onClick={() => setSearchTerm("")}
-              colorScheme="teal"
-              variant={"ghost"}
-              borderRadius="12px"
-            >
-              {messages.ctaClearFilters}
-            </Button>
-            <Button
-              onClick={onOpen}
-              colorScheme="teal"
-              borderRadius="12px"
-              variant={"solid"}
-            >
-              {messages.addNewProject}
-            </Button>
-          </HStack>
-        </Box>
-      ) : null}
+      {!loading && filteredProjects.length === 0 && (
+        <EmptyState setSearchTerm={setSearchTerm} onOpen={onOpen} />
+      )}
       <AddProjectModal isOpen={isOpen} onClose={onClose} onAdd={addProject} />
     </Box>
   );

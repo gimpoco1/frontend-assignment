@@ -5,15 +5,18 @@ import { Project } from "../../../../../data/types";
 
 const MotionBox = motion.div;
 
-function Projects({
-  projects,
-  removeProject,
-}: {
+interface ProjectsProps {
   projects: Project[];
   removeProject: (id: string) => void;
-}) {
+}
+function Projects({ projects, removeProject }: ProjectsProps) {
   return (
-    <Grid templateColumns="repeat(auto-fill, minmax(260px, 2fr))" justifyItems={'center'} mx={'auto'} gap={6}>
+    <Grid
+      templateColumns="repeat(auto-fill, minmax(260px, 2fr))"
+      justifyItems={"center"}
+      mx={"auto"}
+      gap={6}
+    >
       {projects.map((project) => (
         <MotionBox
           key={project.id}

@@ -14,19 +14,21 @@ import {
 } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import { Project } from "../../../data/types";
-import { messages } from "./messages";
+import { messages } from "../messages";
 import { LuExternalLink } from "react-icons/lu";
 import { bgColors } from "../../../constants/bg-colors.constants";
 import StarIcon from "../../atoms/icons/StarIcon";
 import { PiPaintBrushBroadLight } from "react-icons/pi";
 import { motion } from "framer-motion";
 
+const { projectCardMessages } = messages;
+
 interface ProjectCardProps {
   project: Project;
   onRemove: (id: string) => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
+const ProjectCard = ({ project, onRemove }: ProjectCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [bgColor, setBgColor] = useState(
     localStorage.getItem(`bgColor-${project.id}`) ||
@@ -169,7 +171,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
       </Heading>
       <Flex alignItems="center" justifyContent="center" mb="4">
         {[...Array(project.rating)].map((_, i) => (
-          <StarIcon key={i} boxSize="22px" />
+          <StarIcon key={i} boxSize="22px" data-testid="star-icon" />
         ))}
       </Flex>
 
@@ -183,7 +185,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onRemove }) => {
         _hover={{ textDecoration: "underline" }}
       >
         <HStack justifyContent="center">
-          <Text>{messages.viewOnGH}</Text>
+          <Text>{projectCardMessages.viewOnGH}</Text>
           <LuExternalLink />
         </HStack>
       </Link>
