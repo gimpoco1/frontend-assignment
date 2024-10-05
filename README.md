@@ -1,6 +1,9 @@
 # Overview
 
-This project is a Project Management App built using React with Chakra UI for styling and TypeScript for type safety. The app allows users to manage projects, filter them using a search bar, sort them based on various criteria, add new projects, and save projects in the browser's local storage for persistence. It also features light and dark modes for better user experience, and has been developed with unit tests to ensure reliability.
+This project is a Project Management App built using React with Chakra UI for styling and TypeScript for type safety. 
+
+The app allows users to manage projects, filter them using a search bar, sort them based on various criteria, add new projects, and save projects in the browser's local storage for persistence. 
+It also features light and dark modes for better user experience, and has been developed with unit tests to ensure reliability.
 
 # Features
 
@@ -53,14 +56,14 @@ cd project-management-app
 Run the following command to install all necessary dependencies:
 
 npm install
- or
+ ### or
 yarn install
 
 3. Start the Development Server
 To start the development server, run the following command:
 
 npm start
- or
+ ### or
 yarn start
 
 This will start the app and open it in your default browser. You can also manually visit http://localhost:3000 in your browser.
@@ -69,7 +72,7 @@ This will start the app and open it in your default browser. You can also manual
 If you'd like to build the app for production, run:
 
 npm run build
- or
+ ### or
 yarn build
 
 5. Testing
@@ -79,7 +82,7 @@ Running Tests
 To run the test suite, execute the following command:
 
 npm test
- or
+ ### or
 yarn test
 
 
@@ -110,8 +113,12 @@ On page reload, the app retrieves projects from localStorage. If no data is foun
 The sort order is also saved in localStorage.
 ### Troubleshooting
 (Common Issues)
-Missing Projects after Reload: Ensure that your browser supports local storage and that it hasn't been disabled. Check the browser's console for errors related to local storage.
-Local Storage Corruption: If the data in local storage becomes corrupted, try clearing local storage by opening the browser console and running localStorage.clear().
+
+### Missing Projects after Reload: 
+Ensure that your browser supports local storage and that it hasn't been disabled. Check the browser's console for errors related to local storage.
+
+### Local Storage Corruption: 
+If the data in local storage becomes corrupted, try clearing local storage by opening the browser console and running localStorage.clear().
 
 Contributions
 Feel free to fork the repository and submit pull requests for any improvements or bug fixes.
