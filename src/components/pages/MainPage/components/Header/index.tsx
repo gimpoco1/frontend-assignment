@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  filter,
   Flex,
   Heading,
   HStack,
@@ -38,17 +39,19 @@ function Header({
   setProjects,
   searchTerm,
   setSearchTerm,
+  filteredProjects,
 }: {
   projects: Project[];
   setProjects: (projects: Project[]) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  filteredProjects: Project[];
 }) {
   const { colorMode, toggleColorMode } = useColorMode();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [currentSort, setCurrentSort] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // localStorage.clear();
@@ -64,11 +67,15 @@ function Header({
     if (savedSort) {
       setCurrentSort(savedSort);
     }
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    saveProjectsToLocalStorage(projects);
-  }, [projects]);
+    if (!loading) {
+      saveProjectsToLocalStorage(projects);
+    }
+  }, [projects, loading]);
 
   useEffect(() => {
     if (currentSort) {
@@ -90,6 +97,7 @@ function Header({
   const addProject = (project: Project) => {
     setProjects([...projects, project]);
   };
+
   return (
     <Box mb={16}>
       <Heading mb={6} fontSize={{ base: "title3", md: "title2", lg: "title1" }}>
@@ -150,7 +158,7 @@ function Header({
                 {messages.ctaSort}
               </MenuButton>
             </Flex>
-            <MenuList>
+            <MenuList borderRadius="0">
               {SORT_OPTIONS.map((option) => (
                 <MenuItem
                   key={option.value}
@@ -184,6 +192,41 @@ function Header({
           )}
         </Stack>
       </Flex>
+      {!loading && filteredProjects.length === 0 ? (
+        <Box textAlign="center" py={20} px={6}>
+          <Heading
+            fontSize="title2"
+            color={colorMode === "light" ? "blackAlpha.700" : "gray.400"}
+          >
+            {messages.noProjectsFound}
+          </Heading>
+          <Text
+            fontSize="headline3"
+            color={colorMode === "light" ? "blackAlpha.600" : "gray.400"}
+            mb={4}
+          >
+            {messages.noProjectsFound2}
+          </Text>
+          <HStack justifyContent={"center"}>
+            <Button
+              onClick={() => setSearchTerm("")}
+              colorScheme="teal"
+              variant={"ghost"}
+              borderRadius="12px"
+            >
+              {messages.ctaClearFilters}
+            </Button>
+            <Button
+              onClick={onOpen}
+              colorScheme="teal"
+              borderRadius="12px"
+              variant={"solid"}
+            >
+              {messages.addNewProject}
+            </Button>
+          </HStack>
+        </Box>
+      ) : null}
       <AddProjectModal isOpen={isOpen} onClose={onClose} onAdd={addProject} />
     </Box>
   );

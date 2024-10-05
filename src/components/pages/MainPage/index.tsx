@@ -23,6 +23,7 @@ const MainPage: React.FC = () => {
         setProjects={setProjects}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        filteredProjects={filteredProjects}
       />
       <Projects projects={filteredProjects} removeProject={removeProject} />
     </Box>
